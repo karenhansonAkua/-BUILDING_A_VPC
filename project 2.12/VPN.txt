@@ -1,0 +1,94 @@
+💡 What is a VPC?
+If we imagine your AWS Region as a country, a Virtual Private Cloud (VPC) is like managing your own city inside that country. You can design neighborhoods (aka subnets, which you'll learn about in a second), traffic rules, and security measures to control how the different resources inside your VPC, like EC2 instances and S3 buckets, are connected and work together. Your city is isolated from other cities i.e. other AWS Accounts' VPCs, giving you full privacy and control over your VPC's layout and rules.. 
+
+💡 What's the point of having VPCs, why do they matter?
+To put it simply - if VPCs didn't exist, every single AWS resource ever created would be thrown into one big open space in the AWS Cloud.This is like if an entire country didn't have any cities, towns, or districts. All buildings, homes, businesses, and public areas would be randomly scattered across the land with no concept of neighbourhoods, roads or boundaries. Imagine the chaos of trying to find your own house or office in this unorganized sprawl! There'd also be no privacy 
+
+
+- if you were to create a resource in AWS, everyone can see and access that resource since there are no boundaries in place!VPCs are the reason why resources can be made private to you. VPC are also the reason why you can configure your resources to communicate and integrate with each other, even with these boundaries in place.p.s. if we're still a little unsure what difference VPCs make, here's another analogy that might help. Imagine if every file in Google Drive from any account was put into the same folder with no privacy or subfolders. You'd have to find your files in a chaotic sea of everything uploaded by everyone, making it nearly impossible to manage or secure your files! That's what managing your resources would be like without VPCs.
+
+
+💡 How is there already a VPC in my AWS account?
+AWS provides a default VPC in each AWS account to help you quickly get started! This default VPC allows you to launch resources and test AWS services without needing to set up a VPC from scratch. In other words, this default VPC is the reason why you've been able to privately deploy resources like EC2 instances and even connect AWS services from the moment you've created your AWS Account!This default VPC is a handy starting point, especially for beginners, but you can always create custom VPCs to suit more specific requirements e.g. strict security measures.
+
+
+💡 Can I create anything in my AWS account without a VPC?
+You can use some AWS services without setting up a VPC because they don't need a private network to operate. For example, you can store files in S3 (Simple Storage Service) or use AWS Lambda without a VPC. These services are designed to work on the internet without needing a private network setup. However, for resources like virtual servers (EC2) or certain databases, you need a VPC. These services require a secure, isolated network environment to manage how they connect and interact securely.
+
+
+💡 Is my VPC the same thing as the internet? 
+No, a VPC isn't the same as the internet. Think of a VPC as your own private city in the cloud where you can keep and run your cloud resources safely. It's like having a fenced-off piece of land online. The internet, on the other hand, is like a huge public city where everyone can visit. You can connect your private city (VPC) to the internet with a gate (called an internet gateway, which you'll learn more about soon), but they are definitely not the same thing.
+
+💡 How is there already a VPC in my AWS account? 
+AWS provides a default VPC in each AWS account to help you quickly get started! This default VPC allows you to launch resources and test AWS services without needing to set up a VPC from scratch. In other words, this default VPC is the reason why you've been able to privately deploy resources like EC2 instances and even connect AWS services from the moment you've created your AWS Account! This default VPC is a handy starting point, especially for beginners, but you can always create custom VPCs to suit more specific requirements e.g. strict security measures.
+
+
+💡 Can I create anything in my AWS account without a VPC?
+ You can use some AWS services without setting up a VPC because they don't need a private network to operate. For example, you can store files in S3 (Simple Storage Service) or use AWS Lambda without a VPC. These services are designed to work on the internet without needing a private network setup. However, for resources like virtual servers (EC2) or certain databases, you need a VPC. These services require a secure, isolated network environment to manage how they connect and interact securely.
+
+
+💡 Is my VPC the same thing as the internet?
+ No, a VPC isn't the same as the internet. Think of a VPC as your own private city in the cloud where you can keep and run your cloud resources safely. It's like having a fenced-off piece of land online. The internet, on the other hand, is like a huge public city where everyone can visit. You can connect your private city (VPC) to the internet with a gate (called an internet gateway, which you'll learn more about soon), but they are definitely not the same thing.
+
+
+💡 What is a CIDR block?
+CIDR (which stands for Classless Inter-Domain Routing) is a way to assign a whole block of IP addresses, kind of like creating a zone/area in a city.To understand how big a CIDR block is, look at the number after the slash - the smaller the number, the larger the CIDR block! 10.0.0.0/16 means the first 16 bits of your IP address (10.0) are fixed, but the remaining 16 bits (i.e. the second half of the IP address) can be allocated however you like. 
+
+This means IP addresses within this CIDR block range from 10.0.0.0 to 10.0.255.255! There are 2^16 (65,536) possible IP addresses within this subnet.A smaller CIDR block like 10.0.0.0/24 has the first 24 bits fixed, meaning only the last 8 bits can vary. This provides 2^8 (256) possible addresses.A larger CIDR block like 10.0.0.0/8 has only the first 8 bits fixed, allowing for a much larger number of varying bits - this gives you 2^24 (16,777,216) possible addresses.
+
+
+
+SUBNETS
+💡 How are there already subnets here?
+The default VPC provided by AWS comes with predefined subnets in each Availability Zone of a Region, which means you'll see 3 subnets on your page if your Region has 3 Availability Zones. These default subnets are ready to use, helping you to quickly launch resources and test services without needing to create subnets manually.
+
+
+💡 Wait, what are subnets and why do I need them in my VPC?
+If your VPC is a city, subnets are like different neighborhoods inside your city. You use subnets to group resources with similar access rules and restrictions. Some subnets might be public areas that all resources can access (public subnets) while others are private areas with limited access (private subnets).A VPC can have as many public and private subnets as you need, but subnets in the same VPC cannot have overlapping IP address CIDR blocks! Each subnet must have a unique range of IP addresses.
+
+
+💡 What are Availability Zones and how do they affect my VPC?
+To understand Availability Zones (AZs), we'll zoom out of our VPC and our city to look at the whole picture of an AWS Region. Each AWS Region isn't powered by a single, massive data center but actually clusters of data centers dotted around the Region. These clusters are what we call Availability Zones.When you create a subnet within your VPC, you'll assign it to one particular Availability Zone instead of the entire Region! This detail is super useful, especially in more complex setups. By spreading your resources across multiple Availability Zones within the same region, you're essentially creating backup options. If one AZ faces issues, others can step up to keep your application running without any issues for your users.
+
+
+💡 How can I find out how many Availability Zones are in my Region?
+Oo AWS's map can help! Check out the Regions and Availability Zones map if you'd ever like to explore all the Regions in the AWS cloud!
+
+
+💡 Is my Public 1 subnet a public subnet?
+Even though your subnet is labeled Public 1, it isn't a public subnet yet. A public subnet must have a route to an internet gateway, which you'll attach in a minute.
+
+
+💡 What is the difference between a public and private subnet?
+A public subnet is connected to the internet through an internet gateway, which means resources inside a public subnet can communicate with external networks. In contrast, a private subnet does not have direct internet access and is used for internal resources that don’t need to be publicly accessible. This separation helps you design a secure and efficient network architecture, keeping sensitive resources isolated from the public internet.For example, if you are running a web application, the EC2 instance that's hosting a public-facing website needs to be accessible from the internet - 
+
+so it will be launched in the public subnet. In contrast, the web application's database that's storing sensitive data shouldn't be accessible from anyone directly from the internet. It only needs to communicate with the EC2 instance, so it can sit in the private subnet.
+
+
+
+💡 What does it mean to enable auto-assign public IPv4 address?
+When you enable auto-assign public IPv4 address for a subnet, any EC2 instance launched in that subnet will automatically receive a public IP address. This makes the instance accessible from the internet without needing to manually assign a public IP - a huge time saver!
+
+
+💡 My EC2 instance needs an IPv4 address too, even though I've already assigned a CIDR block to my subnet?
+Every EC2 instance needs its own IPv4 address to operate within your subnet. Think of it this way: your subnet has a bunch of IP addresses it can give out—this is the CIDR block 10.0.0.0/16 you defined earlier. Your EC2 instance is allocated one of these IP addresses. This unique IP allows your EC2 instance to communicate within the AWS network and, depending on your settings, on the internet.
+
+
+
+💡 So if it wasn't for an auto-assigned public address, my EC2 instance would only have a private address?
+Yes, that's correct! If you don't enable the auto-assign public IP address feature for your subnet, your EC2 instance will only have a private IP address. This private IP allows the instance to communicate within the AWS network, but it won't be directly reachable from the internet. To access the internet or be accessible from the internet, the instance would need a public IP address, which can be assigned manually or automatically if you set your subnet to auto-assign public IPs.
+
+
+
+INTERNET GATEWAYS.
+💡 What is an internet gateway?
+An internet gateway is like the main entrance gate to your city. It allows visitors (data from the internet) to enter and exit, facilitating communication between the inside of your city (VPC) and the outside world (internet). Without this gateway, your city would be cut off from external access, just like a secluded area with no entry or exit points.
+
+In other words, by attaching an internet gateway, your instances can access the internet and be accessible to external users! This is crucial for applications that require internet connectivity, like web servers hosting web applications.
+
+
+💡 How is there already an internet gateway in my AWS account?
+If you see an existing internet gateway in your AWS account, you might've guessed that it's associated with the default VPC that AWS created for your account. Bingo! This default internet gateway lets you launch instances and have internet connectivity immediately, which is a great starting point for beginners to explore and use AWS services without needing to configure their own internet gateway from scratch.
+
+💡 What does attaching an internet gateway to a VPC mean?
+Attaching an internet gateway means resources in your VPC can now access the internet. The EC2 instances with public IP addresses also become accessible to users, so your applications hosted on those servers become public too.
